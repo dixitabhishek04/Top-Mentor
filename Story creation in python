@@ -1,0 +1,8 @@
+import random
+when = ['A few years ago', 'Day before yesterday', 'Last night', 'A long time ago','On 28th feb']
+who = ['a dog', 'an elephant', 'an owl', 'a turtle','a cat']
+name = ['Anand', 'Milan','Josaph', 'Henry', 'Peter']
+residence = ['Granada','India', 'France', 'Pakistan', 'England']
+went = ['Park', 'university','seminar', 'school', 'Museum']
+happened = ['spent the whole day','Eats a chocolate', 'found a treasury', 'solved a mistery', 'got a magical pen']
+print(random.choice(when) + ', ' + random.choice(who) + ' that lived in ' + random.choice(residence) + ', went to the ' + random.choice(went) + ' and ' + random.choice(happened))
