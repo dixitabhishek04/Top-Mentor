@@ -1,0 +1,66 @@
+### Data Importation ###
+
+import pandas as pd
+dataset = pd.read_csv('dataset_ab.csv')
+dataset.head()
+
+#### Explaination - To retrieve the data, we use the pandas library and import it into a variable named pd.
+#### pd (pandas) provides a method called read csv() that reads data from a comma separated file and produces a DataFrame, which we store to a variable named dataset.
+#### A pandas DataFrame has a function named head() that displays the DataFrame's first five elements.
+
+
+### Now that we've stored all of the data in a DataFrame format, we'll break it up into features and labels. ###
+### Keep in mind that the features are the independent variables that influence the dependent variable known as the label.
+
+x = dataset.iloc[:, 1:-1].values
+y = dataset.iloc[:, -1].values
+print(x[:10])
+print(y[:10])
+
+
+#### Explaination - We may access different rows and columns of a DataFrame by first using iloc, then the index of the rows and columns we want, and lastly appending.values to retrieve the actual values. This is saved in variables x and y.
+
+
+### dividing the data into training and testing sets ###
+#### When we train a model with data, it becomes acquainted with the data and is able to make flawless predictions when it is exposed to the same data again.
+
+from sklearn.model_selection import train_test_split
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size = 0.2, random_state = 0)
+
+
+#### Explaination - we import train_test_split from sklearn library and model_selection.
+#### The train test split function helps us to divide our data into training and testing data. It requires four parameters: features (x), labels (y), test_size (what proportion of the data should be used for testing), and random_state (put any number here).
+
+### Data scalabiling ###
+#### We must scale the data using a technique known as standardization. The values of the characteristics will be scaled so that almost all of them are in the range of -1 to 1.
+
+
+from sklearn.preprocessing import StandardScaler
+sc = StandardScaler()
+x_train = sc.fit_transform(x_train)
+x_test = sc.transform(x_test)
+
+#### Explaination - The StandardScaler class is imported from sklearn.preprocessing. We construct a StandardScaler object and call it sc. We use the fit transform() method from sc to fit the scaler to the data while also scaling the training data and returning it to the x_train variable. Finally, we scale the test data. The transform() function is simply called, and the transformed test data is returned.
+
+
+### The logistic regression model creation ###
+
+from sklearn.linear_model import LogisticRegression
+classifier = LogisticRegression(multi_class='ovr', random_state = 0)
+classifier.fit(x_train, y_train)
+
+
+#### Explaination - LogisticRegression is imported from sklearn.linear_model. By using LogisticRegression(), we construct a classifier instance of the LogisticRegression class, with the parameters multi_class='ovr' and random_state=0. The logistic regression model works in a multiclass scenario when multi_class='ovr' is specified. Any integer can be used as an input to Random_state.
+
+
+### Result prediction ###
+
+
+from sklearn.metrics import confusion_matrix, accuracy_score
+predictions = classifier.predict(x_test)
+cm = confusion_matrix(predictions, y_test)
+print(cm)
+accuracy_score(predictions, y_test)
+
+
+#### Explaination - We bring in the confusion_matrix and the accuracy_score. We obtain the predictions from the fitted classifier and save them to the variable predictions. The confusion_matrix takes two parameters: our predicted values and the expected values, which in this instance are predictions and y_test. The accuracy_score is just the same way. We print the cm which is confusion_matrix. The accuracy_score function outputs its return values automatically.
